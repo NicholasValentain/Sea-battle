@@ -14,10 +14,9 @@ namespace Morskoi_Boi_v._04
     {
         public Form1 frm1;
         public bool Playmap = false;
-        public int bSize = 30;
+        public int bSize = 30, boat = 20;
         public static int mapSize = 10;
         public string razmetka = "ABCDEFGHIJ";
-        public int boat = 20;
         public int[,] myMap = new int[10, 10];
         public int[,] botMap = new int[10, 10];
         public Button[,] myButton = new Button[10, 10];
@@ -61,7 +60,6 @@ namespace Morskoi_Boi_v._04
         {
             this.Hide();
             frm1.Show();
-            
         }
 
         private void RestartClick(object sender, EventArgs e)

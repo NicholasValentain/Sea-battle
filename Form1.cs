@@ -98,14 +98,14 @@ namespace Morskoi_Boi_v._04
         }
         public void Ship(object sender, PaintEventArgs e)
         {
-            boat = new Bitmap("D:/Адоби/menuboat.png");
+            boat = new Bitmap("menuboat.png");
             e.Graphics.DrawImage(boat, 0, 420, 330, 130);
         }
         public void Boom(object sender, PaintEventArgs e)
         {
             Random rnd = new Random();
             int Explosions = 8;
-            booms = new Bitmap("D:/Адоби/booms.png");
+            booms = new Bitmap("booms.png");
             while (Explosions > 0)
             {
                 int x = rnd.Next(0, 350);
@@ -120,7 +120,7 @@ namespace Morskoi_Boi_v._04
 
         public void Seabattle(object sender, PaintEventArgs e)
         {
-            boat = new Bitmap("D:/Адоби/Seabattle.png");
+            boat = new Bitmap("Seabattle.png");
             e.Graphics.DrawImage(boat, 95, -30, 200, 260);
         }
 

@@ -16,6 +16,8 @@ namespace Morskoi_Boi_v._04
         public int[,] botMap = new int[10, 10];
         public Button[,] myButton = new Button[10, 10];
         public Button[,] botButton = new Button[10, 10];
+        public int nap;
+        public Random rnd = new Random();
 
         public II(int[,] myMap, int[,] botMap, Button[,] myButton, Button[,] botButton)
         {
@@ -365,29 +367,31 @@ namespace Morskoi_Boi_v._04
                 botButton[x, y].Text = "X";
                 popx = x;
                 popy = y;
-                if ((popx >= 0 && popy - 1 >= 0 && popx <= 9 && popy - 1 <= 9 && botMap[popx, popy - 1] != 0) || (popx - 1 >= 0 && popy >= 0 && popx - 1 <= 9 && popy <= 9 && botMap[popx - 1, popy] != 0) || (popx + 1 >= 0 && popy >= 0 && popx + 1 <= 9 && popy <= 9 && botMap[popx + 1, popy] != 0) || (popx >= 0 && popy + 1 >= 0 && popx <= 9 && popy + 1 <= 9 && botMap[popx, popy + 1] != 0))
+                if ((popx >= 0 && popy - 1 >= 0 && popx <= 9 && popy - 1 <= 9 && (botMap[popx, popy - 1] != 0)) || (popx - 1 >= 0 && popy >= 0 && popx - 1 <= 9 && popy <= 9 && (botMap[popx - 1, popy] != 0)) || (popx + 1 >= 0 && popy >= 0 && popx + 1 <= 9 && popy <= 9 && (botMap[popx + 1, popy] != 0)) || (popx >= 0 && popy + 1 >= 0 && popx <= 9 && popy + 1 <= 9 && (botMap[popx, popy + 1] != 0)))
                 {
-                    probitie = false;
                     Vistrel3(popx, popy);
+                    probitie = false;
                 }
             }
             else
             {
                 probitie = false;
                 botButton[x, y].BackColor = Color.Black;
+                botMap[x, y] = 0;
             }
             if (probitie)
             {
-                Vistrel();
+                //Vistrel();
             }
             return probitie;
         }
-        public void Vistrel2(int popx,int popy)
+        public void Vistrel2(int popx, int popy)
         {
             Random rnd = new Random();
             int x = popx;
             int y = popy;
             bool pravilnoe = false;
+
             int nap = rnd.Next(1, 5);
             if (nap == 1)
             {
@@ -612,168 +616,186 @@ namespace Morskoi_Boi_v._04
         }
         public void Vistrel3(int popx, int popy)
         {
-            Random rnd = new Random();
             int x = popx;
             int y = popy;
-            int nap = rnd.Next(1, 5);
-            if (nap == 1)
+            nap = rnd.Next(1, 5);
+            if ((popx >= 0 && popy - 1 >= 0 && popx <= 9 && popy - 1 <= 9 && (botMap[popx, popy - 1] != 0)) || (popx - 1 >= 0 && popy >= 0 && popx - 1 <= 9 && popy <= 9 && (botMap[popx - 1, popy] != 0)) || (popx + 1 >= 0 && popy >= 0 && popx + 1 <= 9 && popy <= 9 && (botMap[popx + 1, popy] != 0)) || (popx >= 0 && popy + 1 >= 0 && popx <= 9 && popy + 1 <= 9 && (botMap[popx, popy + 1] != 0)))
             {
-                if ((popx + 1 >= 0 && popy >= 0 && popx + 1 <= 9 && popy <= 9) && (botButton[popx + 1, popy].BackColor == Color.White || botButton[popx + 1, popy].BackColor == Color.Blue))
+                if (nap == 1)
                 {
-                    popx = popx + 1;
-                    popy = popy;
-                    bool shoot1 = true;
-                    while (shoot1)
+                    bool shoot1;
+                    if ((popx + 1 >= 0 && popy >= 0 && popx + 1 <= 9 && popy <= 9) && (botButton[popx + 1, popy].BackColor == Color.White || botButton[popx + 1, popy].BackColor == Color.Blue))
                     {
-                        if (popx >= 0 && popy >= 0 && popx <= 9 && popy <= 9)
+                        popx = popx + 1;
+                        popy = popy;
+                        shoot1 = true;
+                        while (shoot1 && popx >= 0 && popy >= 0 && popx <= 9 && popy <= 9)
                         {
-                            if (botMap[popx, popy] != 0 && botButton[popx, popy].BackColor == Color.Blue)
+                            if (popx >= 0 && popy >= 0 && popx <= 9 && popy <= 9)
                             {
-                                botMap[popx, popy] = 0;
-                                botButton[popx, popy].BackColor = Color.Red;
-                                botButton[popx, popy].Text = "X";
-                                shoot1 = true;
-                                popx = popx + 1;
+                                if (botMap[popx, popy] != 0 && botButton[popx, popy].BackColor == Color.Blue)
+                                {
+                                    botMap[popx, popy] = 0;
+                                    botButton[popx, popy].BackColor = Color.Red;
+                                    botButton[popx, popy].Text = "X";
+                                    shoot1 = true;
+                                    popx = popx + 1;
+                                }
+                                else
+                                {
+                                    botButton[popx, popy].BackColor = Color.Black;
+                                    botMap[popx, popy] = 0;
+                                    shoot1 = false;
+                                }
                             }
                             else
                             {
                                 shoot1 = false;
-                                botButton[popx, popy].BackColor = Color.Black;
-                                botMap[popx, popy] = 0;
                             }
                         }
-                        else
-                        {
-                            shoot1 = false;
-                        }
                     }
-                }
-                else
-                {
-                    nap = rnd.Next(1, 5);
-                    Vistrel3(x, y);
-                }
-
-            }
-
-            if (nap == 2)
-            {
-                if ((popx - 1 >= 0 && popy >= 0 && popx - 1 <= 9 && popy <= 9) && (botButton[popx - 1, popy].BackColor == Color.White || botButton[popx - 1, popy].BackColor == Color.Blue))
-                {
-                    popx = popx - 1;
-                    popy = popy;
-                    bool shoot2 = true;
-                    while (shoot2)
+                    else
                     {
-                        if (popx >= 0 && popy >= 0 && popx <= 9 && popy <= 9)
+                        if ((popx >= 0 && popy - 1 >= 0 && popx <= 9 && popy - 1 <= 9 && (botMap[popx, popy - 1] != 0)) || (popx - 1 >= 0 && popy >= 0 && popx - 1 <= 9 && popy <= 9 && (botMap[popx - 1, popy] != 0)) || (popx + 1 >= 0 && popy >= 0 && popx + 1 <= 9 && popy <= 9 && (botMap[popx + 1, popy] != 0)) || (popx >= 0 && popy + 1 >= 0 && popx <= 9 && popy + 1 <= 9 && (botMap[popx, popy + 1] != 0)))
                         {
-                            if (botMap[popx, popy] != 0 && botButton[popx, popy].BackColor == Color.Blue)
+                            Vistrel3(x, y);
+                        }
+                        shoot1 = false;
+                    }
+
+                }
+
+                if (nap == 2)
+                {
+                    bool shoot2;
+                    if ((popx - 1 >= 0 && popy >= 0 && popx - 1 <= 9 && popy <= 9) && (botButton[popx - 1, popy].BackColor == Color.White || botButton[popx - 1, popy].BackColor == Color.Blue))
+                    {
+                        popx = popx - 1;
+                        popy = popy;
+                        shoot2 = true;
+                        while (shoot2 && popx >= 0 && popy >= 0 && popx <= 9 && popy <= 9)
+                        {
+                            if (popx >= 0 && popy >= 0 && popx <= 9 && popy <= 9)
                             {
-                                botMap[popx, popy] = 0;
-                                botButton[popx, popy].BackColor = Color.Red;
-                                botButton[popx, popy].Text = "X";
-                                shoot2 = true;
-                                popx = popx - 1;
+                                if (botMap[popx, popy] != 0 && botButton[popx, popy].BackColor == Color.Blue)
+                                {
+                                    botMap[popx, popy] = 0;
+                                    botButton[popx, popy].BackColor = Color.Red;
+                                    botButton[popx, popy].Text = "X";
+                                    shoot2 = true;
+                                    popx = popx - 1;
+                                }
+                                else
+                                {
+                                    botButton[popx, popy].BackColor = Color.Black;
+                                    botMap[popx, popy] = 0;
+                                    shoot2 = false;
+                                }
                             }
                             else
                             {
                                 shoot2 = false;
-                                botButton[popx, popy].BackColor = Color.Black;
-                                botMap[popx, popy] = 0;
                             }
                         }
-                        else
-                        {
-                            shoot2 = false;
-                        }
                     }
-                }
-                else
-                {
-                    nap = rnd.Next(1, 5);
-                    Vistrel3(x, y);
-                }
-
-            }
-
-            if (nap == 3)
-            {
-                if ((popx >= 0 && popy + 1 >= 0 && popx <= 9 && popy + 1 <= 9) && (botButton[popx, popy + 1].BackColor == Color.White || botButton[popx, popy + 1].BackColor == Color.Blue))
-                {
-                    popx = popx;
-                    popy = popy + 1;
-                    bool shoot3 = true;
-                    while (shoot3)
+                    else
                     {
-                        if (popx >= 0 && popy >= 0 && popx <= 9 && popy <= 9)
+                        if ((popx >= 0 && popy - 1 >= 0 && popx <= 9 && popy - 1 <= 9 && (botMap[popx, popy - 1] != 0)) || (popx - 1 >= 0 && popy >= 0 && popx - 1 <= 9 && popy <= 9 && (botMap[popx - 1, popy] != 0)) || (popx + 1 >= 0 && popy >= 0 && popx + 1 <= 9 && popy <= 9 && (botMap[popx + 1, popy] != 0)) || (popx >= 0 && popy + 1 >= 0 && popx <= 9 && popy + 1 <= 9 && (botMap[popx, popy + 1] != 0)))
                         {
-                            if (botMap[popx, popy] != 0 && botButton[popx, popy].BackColor == Color.Blue)
+                            Vistrel3(x, y);
+                        }
+                        shoot2 = false;
+                    }
+
+                }
+
+                if (nap == 3)
+                {
+                    bool shoot3;
+                    if ((popx >= 0 && popy + 1 >= 0 && popx <= 9 && popy + 1 <= 9) && (botButton[popx, popy + 1].BackColor == Color.White || botButton[popx, popy + 1].BackColor == Color.Blue))
+                    {
+                        popx = popx;
+                        popy = popy + 1;
+                        shoot3 = true;
+                        while (shoot3 && popx >= 0 && popy >= 0 && popx <= 9 && popy <= 9)
+                        {
+                            if (popx >= 0 && popy >= 0 && popx <= 9 && popy <= 9)
                             {
-                                botMap[popx, popy] = 0;
-                                botButton[popx, popy].BackColor = Color.Red;
-                                botButton[popx, popy].Text = "X";
-                                shoot3 = true;
-                                popy = popy + 1;
+                                if (botMap[popx, popy] != 0 && botButton[popx, popy].BackColor == Color.Blue)
+                                {
+                                    botMap[popx, popy] = 0;
+                                    botButton[popx, popy].BackColor = Color.Red;
+                                    botButton[popx, popy].Text = "X";
+                                    shoot3 = true;
+                                    popy = popy + 1;
+                                }
+                                else
+                                {
+                                    botButton[popx, popy].BackColor = Color.Black;
+                                    botMap[popx, popy] = 0;
+                                    shoot3 = false;
+                                }
                             }
                             else
                             {
                                 shoot3 = false;
-                                botButton[popx, popy].BackColor = Color.Black;
-                                botMap[popx, popy] = 0;
                             }
                         }
-                        else
-                        {
-                            shoot3 = false;
-                        }
                     }
-                }
-                else
-                {
-                    nap = rnd.Next(1, 5);
-                    Vistrel3(x, y);
-                }
-
-            }
-
-            if (nap == 4)
-            {
-                if ((popx >= 0 && popy - 1 >= 0 && popx <= 9 && popy - 1 <= 9) && (botButton[popx, popy - 1].BackColor == Color.White || botButton[popx, popy - 1].BackColor == Color.Blue))
-                {
-                    popx = popx;
-                    popy = popy - 1;
-                    bool shoot4 = true;
-                    while (shoot4)
+                    else
                     {
-                        if (popx >= 0 && popy >= 0 && popx <= 9 && popy <= 9)
+                        if ((popx >= 0 && popy - 1 >= 0 && popx <= 9 && popy - 1 <= 9 && (botMap[popx, popy - 1] != 0)) || (popx - 1 >= 0 && popy >= 0 && popx - 1 <= 9 && popy <= 9 && (botMap[popx - 1, popy] != 0)) || (popx + 1 >= 0 && popy >= 0 && popx + 1 <= 9 && popy <= 9 && (botMap[popx + 1, popy] != 0)) || (popx >= 0 && popy + 1 >= 0 && popx <= 9 && popy + 1 <= 9 && (botMap[popx, popy + 1] != 0)))
                         {
-                            if (botMap[popx, popy] != 0 && botButton[popx, popy].BackColor == Color.Blue)
+                            Vistrel3(x, y);
+                        }
+                        shoot3 = false;
+                    }
+
+                }
+
+                if (nap == 4)
+                {
+                    bool shoot4;
+                    if ((popx >= 0 && popy - 1 >= 0 && popx <= 9 && popy - 1 <= 9) && (botButton[popx, popy - 1].BackColor == Color.White || botButton[popx, popy - 1].BackColor == Color.Blue))
+                    {
+                        popx = popx;
+                        popy = popy - 1;
+                        shoot4 = true;
+                        while (shoot4 && popx >= 0 && popy >= 0 && popx <= 9 && popy <= 9)
+                        {
+                            if (popx >= 0 && popy >= 0 && popx <= 9 && popy <= 9)
                             {
-                                botMap[popx, popy] = 0;
-                                botButton[popx, popy].BackColor = Color.Red;
-                                botButton[popx, popy].Text = "X";
-                                shoot4 = true;
-                                popy = popy - 1;
+                                if (botMap[popx, popy] != 0 && botButton[popx, popy].BackColor == Color.Blue)
+                                {
+                                    botMap[popx, popy] = 0;
+                                    botButton[popx, popy].BackColor = Color.Red;
+                                    botButton[popx, popy].Text = "X";
+                                    shoot4 = true;
+                                    popy = popy - 1;
+                                }
+                                else
+                                {
+                                    botButton[popx, popy].BackColor = Color.Black;
+                                    botMap[popx, popy] = 0;
+                                    shoot4 = false;
+                                }
                             }
                             else
                             {
                                 shoot4 = false;
-                                botButton[popx, popy].BackColor = Color.Black;
-                                botMap[popx, popy] = 0;
                             }
                         }
-                        else
-                        {
-                            shoot4 = false;
-                        }
                     }
-                }
-                else
-                {
-                    nap = rnd.Next(1, 5);
-                    Vistrel3(x, y);
-                }
+                    else
+                    {
+                        if ((popx >= 0 && popy - 1 >= 0 && popx <= 9 && popy - 1 <= 9 && (botMap[popx, popy - 1] != 0)) || (popx - 1 >= 0 && popy >= 0 && popx - 1 <= 9 && popy <= 9 && (botMap[popx - 1, popy] != 0)) || (popx + 1 >= 0 && popy >= 0 && popx + 1 <= 9 && popy <= 9 && (botMap[popx + 1, popy] != 0)) || (popx >= 0 && popy + 1 >= 0 && popx <= 9 && popy + 1 <= 9 && (botMap[popx, popy + 1] != 0)))
+                        {
+                            Vistrel3(x, y);
+                        }
+                        shoot4 = false;
+                    }
 
+                }
             }
         }
         public bool Vistrel4()
@@ -833,7 +855,6 @@ namespace Morskoi_Boi_v._04
                 }
                 else
                 {
-                    nap = rnd.Next(1, 5);
                     Vistrel3(x, y);
                 }
             }
